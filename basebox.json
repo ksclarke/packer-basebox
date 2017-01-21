@@ -1,0 +1,268 @@
+{
+  "variables": {
+    "el-6x-version": "6.8",
+    "centos-6x-iso-checksum": "ec49c297d484b9da0787e5944edc38f7c70f21c0f6a60178d8e9a8926d1949f4",
+    "rhel-6x-iso-checksum": "d35fd1af20f6adef9b11b46c2534ae8b6e18de7754889e2b51808b436dff2804",
+    "rhel-6x-download-url": "{{ env `RHEL_6_URL` }}",
+    "ssh-username": "vagrant",
+    "ssh-password": "vagrant",
+    "rhn-username": "{{ env `RHN_USERNAME` }}",
+    "rhn-password": "{{ env `RHN_PASSWORD` }}",
+    "atlas-username": "{{ env `ATLAS_USERNAME` }}",
+    "atlas-token": "{{ env `ATLAS_TOKEN` }}",
+    "basebox-version": "0.0.1",
+    "basebox-description": "A generic base box for use with more complicated builds"
+  },
+  "builders": [
+    {
+      "name": "virtualbox-centos6",
+      "type": "virtualbox-iso",
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks-el-6x.cfg<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 81920,
+      "guest_os_type": "RedHat_64",
+      "headless": true,
+      "http_directory": "http",
+      "iso_urls": [
+        "iso/CentOS-{{ user `el-6x-version` }}-x86_64-minimal.iso",
+        "http://mirrors.liquidweb.com/CentOS/{{ user `el-6x-version` }}/isos/x86_64/CentOS-{{ user `el-6x-version` }}-x86_64-minimal.iso"
+      ],
+      "output_directory": "builds/output-{{ build_name }}",
+      "iso_checksum_type": "sha256",
+      "iso_checksum": "{{ user `centos-6x-iso-checksum` }}",
+      "ssh_username": "{{ user `ssh-username` }}",
+      "ssh_password": "{{ user `ssh-password` }}",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo '{{ user `ssh-password` }}' | /usr/bin/sudo -S /sbin/halt -h -p",
+      "guest_additions_path": "VBoxGuestAdditions_{{ .Version }}.iso",
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "basebox-centos-{{ user `el-6x-version` }}-x86_64",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{ .Name }}",
+          "--memory",
+          "512"
+        ],
+        [
+          "modifyvm",
+          "{{ .Name }}",
+          "--cpus",
+          "1"
+        ]
+      ]
+    },
+    {
+      "name": "vmware-centos6",
+      "type": "vmware-iso",
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks-el-6x.cfg<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 81920,
+      "guest_os_type": "centos-64",
+      "headless": false,
+      "http_directory": "http",
+      "iso_urls": [
+        "iso/CentOS-{{ user `el-6x-version` }}-x86_64-minimal.iso",
+        "http://mirrors.liquidweb.com/CentOS/{{ user `el-6x-version` }}/isos/x86_64/CentOS-{{ user `el-6x-version` }}-x86_64-minimal.iso"
+      ],
+      "output_directory": "builds/output-{{ build_name }}",
+      "iso_checksum_type": "sha256",
+      "iso_checksum": "{{ user `centos-6x-iso-checksum` }}",
+      "ssh_username": "{{ user `ssh-username` }}",
+      "ssh_password": "{{ user `ssh-password` }}",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo '{{ user `ssh-password` }}' | /usr/bin/sudo -S /sbin/halt -h -p",
+      "tools_upload_flavor": "linux",
+      "vm_name": "basebox-centos-{{ user `el-6x-version` }}-x86_64",
+      "vmx_data": {
+        "cpuid.coresPerSocket": "1",
+        "memsize": "512",
+        "numvcpus": "1"
+      }
+    },
+    {
+      "name": "virtualbox-rhel6",
+      "type": "virtualbox-iso",
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks-el-6x.cfg<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 81920,
+      "guest_os_type": "RedHat_64",
+      "headless": false,
+      "http_directory": "http",
+      "iso_urls": [
+        "iso/rhel-server-{{ user `el-6x-version` }}-x86_64-dvd.iso",
+        "{{ user `rhel-6x-download-url` }}"
+      ],
+      "output_directory": "builds/output-{{ build_name }}",
+      "iso_checksum_type": "sha256",
+      "iso_checksum": "{{ user `rhel-6x-iso-checksum` }}",
+      "ssh_username": "{{ user `ssh-username` }}",
+      "ssh_password": "{{ user `ssh-password` }}",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo '{{ user `ssh-password` }}' | /usr/bin/sudo -S /sbin/halt -h -p",
+      "guest_additions_path": "VBoxGuestAdditions_{{ .Version }}.iso",
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "basebox-rhel-{{ user `el-6x-version` }}-x86_64",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{ .Name }}",
+          "--memory",
+          "512"
+        ],
+        [
+          "modifyvm",
+          "{{ .Name }}",
+          "--cpus",
+          "1"
+        ]
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "only": [
+        "virtualbox-centos6",
+        "vmware-centos6"
+      ],
+      "execute_command": "echo '{{ user `ssh-password` }}' | {{ .Vars }} /usr/bin/sudo -S -E bash '{{ .Path }}'",
+      "environment_vars": [
+        "EL_VERSION={{ user `el-6x-version` }}"
+      ],
+      "script": "scripts/install-ansible-centos6.sh"
+    },
+    {
+      "type": "shell",
+      "only": [
+        "virtualbox-rhel6"
+      ],
+      "execute_command": "echo '{{ user `ssh-password` }}' | {{ .Vars }} /usr/bin/sudo -S -E bash '{{ .Path }}'",
+      "environment_vars": [
+        "RHN_USERNAME={{ user `rhn-username` }}",
+        "RHN_PASSWORD={{ user `rhn-password` }}",
+        "EL_VERSION={{ user `el-6x-version` }}"
+      ],
+      "script": "scripts/install-ansible-rhel6.sh"
+    },
+    {
+      "type": "ansible-local",
+      "only": [
+        "virtualbox-centos6",
+        "vmware-centos6",
+        "virtualbox-rhel6"
+      ],
+      "playbook_file": "ansible/vagrant.yml",
+      "galaxy_file": "requirements/vagrant.yaml"
+    },
+    {
+      "type": "ansible-local",
+      "playbook_file": "ansible/main.yml",
+      "galaxy_file": "requirements/main.yaml"
+    },
+    {
+      "type": "shell",
+      "execute_command": "echo '{{ user `ssh_password` }}' | {{ .Vars }} /usr/bin/sudo -S -E bash '{{ .Path }}'",
+      "script": "scripts/cleanup.sh"
+    },
+    {
+      "type": "shell",
+      "only": [
+        "virtualbox-rhel6"
+      ],
+      "execute_command": "echo '{{ user `ssh-password` }}' | {{ .Vars }} /usr/bin/sudo -S -E bash '{{ .Path }}'",
+      "inline": [ "rm -f /etc/sysconfig/rhn/systemid" ]
+    }
+  ],
+  "post-processors": [
+    [{
+      "type": "vagrant",
+      "output": "builds/basebox-{{ .BuildName }}.box",
+      "vagrantfile_template": "Vagrantfile",
+      "only": [
+        "virtualbox-centos6",
+        "vmware-centos6",
+        "virtualbox-rhel6"
+      ],
+      "keep_input_artifact": true
+    },
+    {
+      "type": "atlas",
+      "only": [ "virtualbox-centos6" ],
+      "token": "{{ user `atlas-token` }}",
+      "artifact": "{{ user `atlas-username` }}/basebox-centos6",
+      "artifact_type": "vagrant.box",
+      "metadata": {
+        "created_at": "{{ timestamp }}",
+        "version": "{{ user `basebox-version` }}",
+        "description": "{{ user `basebox-description` }}",
+        "provider": "virtualbox"
+      }
+    },
+    {
+      "type": "atlas",
+      "only": [ "vmware-centos6" ],
+      "token": "{{ user `atlas-token` }}",
+      "artifact": "{{ user `atlas-username` }}/basebox-centos6",
+      "artifact_type": "vagrant.box",
+      "metadata": {
+        "created_at": "{{ timestamp }}",
+        "version": "{{ user `basebox-version` }}",
+        "description": "{{ user `basebox-description` }}",
+        "provider": "vmware"
+      }
+    },
+    {
+      "type": "atlas",
+      "only": [ "virtualbox-rhel6" ],
+      "token": "{{ user `atlas-token` }}",
+      "artifact": "{{ user `atlas-username` }}/basebox-rhel6",
+      "artifact_type": "vagrant.box",
+      "metadata": {
+        "created_at": "{{ timestamp }}",
+        "version": "{{ user `basebox-version` }}",
+        "description": "{{ user `basebox-description` }}",
+        "provider": "virtualbox"
+      }
+    }],
+    [{
+      "type": "shell-local",
+      "only": [ "virtualbox-centos6" ],
+      "inline": [
+        "cd builds/output-${PACKER_BUILD_NAME}",
+        "tar cfv ../basebox-${PACKER_BUILD_NAME}.ova *.ovf *.vmdk"
+      ]
+    },
+    {
+      "type": "artifice",
+      "only": [ "virtualbox-centos6" ],
+      "files": [ "builds/basebox-virtualbox-centos6.ova" ]
+    },
+    {
+      "type": "atlas",
+      "only": [ "virtualbox-centos6" ],
+      "token": "{{ user `atlas-token` }}",
+      "artifact": "{{ user `atlas-username` }}/basebox-centos6",
+      "artifact_type": "virtualbox.image",
+      "metadata": {
+        "created_at": "{{ timestamp }}",
+        "version": "{{ user `basebox-version` }}",
+        "description": "{{ user `basebox-description` }}"
+      }
+    },
+    {
+      "type": "shell-local",
+      "only": [ "virtualbox-centos6" ],
+      "inline": ["rm -rf builds/output-virtualbox-centos6"]
+    }]
+  ]
+}

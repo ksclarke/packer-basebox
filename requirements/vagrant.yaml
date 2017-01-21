@@ -1,0 +1,2 @@
+- name: ansible_uclalib_role_vagrant
+  src: https://github.com/uclalibrary/ansible_uclalib_role_vagrant

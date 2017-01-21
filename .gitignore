@@ -1,0 +1,12 @@
+# Cache of source images
+packer_cache
+
+# Build artifacts
+builds/*.box
+builds/*.ova
+
+# Temporary workspaces
+builds/output-*
+
+# Vagrant working files
+.vagrant

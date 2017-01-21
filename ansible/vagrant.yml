@@ -1,0 +1,8 @@
+---
+
+- hosts: all
+  become: yes
+  gather_facts: yes
+
+  roles:
+    - ansible_uclalib_role_vagrant

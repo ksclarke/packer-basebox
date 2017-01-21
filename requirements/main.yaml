@@ -1,0 +1,8 @@
+- name: uclalib_role_java
+  src: https://github.com/uclalibrary/ansible_uclalib_role_java
+
+- name: ansible_uclalib_role_java_maven
+  src: https://github.com/uclalibrary/ansible_uclalib_role_java_maven
+
+- name: uclalib_role_tmux
+  src: https://github.com/uclalibrary/uclalib_role_tmux
