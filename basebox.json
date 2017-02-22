@@ -236,16 +236,34 @@
     }],
     [{
       "type": "shell-local",
-      "only": [ "virtualbox-centos6" ],
+      "only": [ "virtualbox-centos6", "virtualbox-rhel6" ],
       "inline": [
         "cd builds/output-${PACKER_BUILD_NAME}",
         "tar cfv ../basebox-${PACKER_BUILD_NAME}.ova *.ovf *.vmdk"
       ]
     },
     {
+      "type": "shell-local",
+      "only": [ "vmware-centos6" ],
+      "inline": [
+        "cd builds/output-${PACKER_BUILD_NAME}",
+        "ovftool *.vmx ../basebox-${PACKER_BUILD_NAME}.ova"
+      ]
+    },
+    {
       "type": "artifice",
       "only": [ "virtualbox-centos6" ],
       "files": [ "builds/basebox-virtualbox-centos6.ova" ]
+    },
+    {
+      "type": "artifice",
+      "only": [ "virtualbox-rhel6" ],
+      "files": [ "builds/basebox-virtualbox-rhel6.ova" ]
+    },
+    {
+      "type": "artifice",
+      "only": [ "vmware-centos6" ],
+      "files": [ "builds/basebox-vmware-centos6.ova" ]
     },
     {
       "type": "atlas",
@@ -260,9 +278,33 @@
       }
     },
     {
+      "type": "atlas",
+      "only": [ "vmware-centos6" ],
+      "token": "{{ user `atlas-token` }}",
+      "artifact": "{{ user `atlas-username` }}/basebox-centos6",
+      "artifact_type": "vmware.image",
+      "metadata": {
+        "created_at": "{{ timestamp }}",
+        "version": "{{ user `basebox-version` }}",
+        "description": "{{ user `basebox-description` }}"
+      }
+    },
+    {
+      "type": "atlas",
+      "only": [ "virtualbox-rhel6" ],
+      "token": "{{ user `atlas-token` }}",
+      "artifact": "{{ user `atlas-username` }}/basebox-rhel6",
+      "artifact_type": "virtualbox.image",
+      "metadata": {
+        "created_at": "{{ timestamp }}",
+        "version": "{{ user `basebox-version` }}",
+        "description": "{{ user `basebox-description` }}"
+      }
+    },
+    {
       "type": "shell-local",
-      "only": [ "virtualbox-centos6" ],
-      "inline": ["rm -rf builds/output-virtualbox-centos6"]
+      "only": [ "virtualbox-centos6", "virtualbox-rhel6", "vmware-centos6" ],
+      "inline": [ "rm -rf builds/output-{{ build_name }}" ]
     }]
   ]
 }
