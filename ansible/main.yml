@@ -8,6 +8,9 @@
     - name: Ensure Ansible dependencies are installed
       yum: name=libselinux-python state=installed
 
+    - name: Install the Man pages
+      yum: name=man state=installed
+
   vars:
     java_package: java-1.8.0-openjdk-devel
     maven_version: 3.3.9
