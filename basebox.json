@@ -10,6 +10,7 @@
     "rhn-password": "{{ env `RHN_PASSWORD` }}",
     "atlas-username": "{{ env `ATLAS_USERNAME` }}",
     "atlas-token": "{{ env `ATLAS_TOKEN` }}",
+    "docker-user": "{{ env `DOCKER_USER` }}",
     "basebox-version": "0.0.1",
     "basebox-description": "A generic base box for use with more complicated builds"
   },
@@ -126,14 +127,26 @@
           "1"
         ]
       ]
+    },
+    {
+      "name": "docker-centos6",
+      "type": "docker",
+      "image": "centos:{{ user `el-6x-version` }}",
+      "commit": "true",
+      "pull": "true"
     }
   ],
   "provisioners": [
     {
       "type": "shell",
+      "inline": [ "yum install -y sudo" ]
+    },
+    {
+      "type": "shell",
       "only": [
         "virtualbox-centos6",
-        "vmware-centos6"
+        "vmware-centos6",
+        "docker-centos6"
       ],
       "execute_command": "echo '{{ user `ssh-password` }}' | {{ .Vars }} /usr/bin/sudo -S -E bash '{{ .Path }}'",
       "environment_vars": [
@@ -173,6 +186,12 @@
       "type": "shell",
       "execute_command": "echo '{{ user `ssh_password` }}' | {{ .Vars }} /usr/bin/sudo -S -E bash '{{ .Path }}'",
       "script": "scripts/cleanup.sh"
+    },
+    {
+      "type": "shell",
+      "except": [ "docker-centos6" ],
+      "execute_command": "echo '{{ user `ssh_password` }}' | {{ .Vars }} /usr/bin/sudo -S -E bash '{{ .Path }}'",
+      "script": "scripts/zero-out-disk.sh"
     },
     {
       "type": "shell",
@@ -305,6 +324,12 @@
       "type": "shell-local",
       "only": [ "virtualbox-centos6", "virtualbox-rhel6", "vmware-centos6" ],
       "inline": [ "rm -rf builds/output-{{ build_name }}" ]
+    }],
+    [{
+      "type": "docker-tag",
+      "only": [ "docker-centos6" ],
+      "repository": "{{user `docker-user`}}/basebox-centos6",
+      "tag": "{{ user `basebox-version` }}"
     }]
   ]
 }

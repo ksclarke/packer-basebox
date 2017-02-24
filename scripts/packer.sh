@@ -1,0 +1,14 @@
+#! /bin/bash
+
+# Check to make sure our testing requirements are installed
+hash jq 2>/dev/null || { echo >&2 "I require jq but it's not installed. Aborting."; exit 1; }
+
+# Check to see whether we're only running a particular build
+if [ -z ${1+x} ]; then
+  ONLY=""
+else
+  ONLY="-only $1"
+fi
+
+# Remove the parts of the Packer configuration that publish artifacts
+jq '.["post-processors"][0,1] |= map(select(.type != "atlas" and .type != "artifice"))' basebox.json | DOCKER_USER="$2" packer build $ONLY -

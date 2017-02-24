@@ -9,10 +9,3 @@ yum -y update
 
 printf "${GREEN}Clean system${NC}\n"
 yum -y clean all
-
-printf "${GREEN}Zeroing out free space on the device${NC}\n"
-dd if=/dev/zero of=/EMPTY bs=1M
-rm -f /EMPTY
-
-printf "${GREEN}Synchronizing so Packer doesn't quit before cleanup is finished${NC}\n"
-sync
