@@ -50,6 +50,10 @@ To build just the RHEL 6 VirtualBox basebox, run:
 
     scripts/packer.sh virtualbox-rhel6
 
+To build just the RHEL 6 VMWare basebox, run:
+
+    scripts/packer.sh vmware-rhel6
+
 To build just the CentOS 6 Docker basebox and store it in your local Docker repo, run:
 
     scripts/packer.sh docker-centos6 [YOUR_DOCKER_USERNAME]
@@ -67,6 +71,10 @@ To build just the CentOS 6 VMWare basebox, run:
 To build just the RHEL 6 VirtualBox basebox, run:
 
     packer build -only="virtualbox-rhel6" basebox.json
+
+To build just the RHEL 6 VMWare basebox, run:
+
+    packer build -only="vmware-rhel6" basebox.json
 
 To build just the CentOS 6 Docker basebox, run:
 
