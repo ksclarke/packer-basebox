@@ -17,5 +17,5 @@
 
   roles:
     - uclalib_role_java
-    - ansible_uclalib_role_java_maven
+    - uclalib_role_java_maven
     - uclalib_role_tmux

@@ -1,0 +1,35 @@
+# Vagrantfile file for basebox-vmware-rhel6.box
+require 'yaml'
+
+# If we're running locally use file based paths; else use Atlas
+if File.exists?("../../basebox.json")
+  BOX_CONF = YAML.load("vagrant_box: file://../../builds/basebox-vmware-rhel6.box")
+else
+  BOX_CONF.merge!(YAML.load("vagrant_box: ksclarke/basebox-rhel6"))
+end
+
+Vagrant.configure("2") do |config|
+  config.ssh.insert_key = false
+
+  # VMware Fusion: `vagrant up basebox-rhel6 --provider=vmware_fusion`
+  # VMware Workstation: `vagrant up basbox-rhel6 --provider=vmware_workstation`
+  config.vm.define "basebox-rhel6" do |vmware|
+    vmware.vm.hostname = "basebox-rhel6"
+    vmware.vm.box = BOX_CONF["vagrant_box"]
+
+    vmware.vm.network :private_network, type: "dhcp"
+
+    config.vm.provider :vmware_fusion do |v, override|
+      v.gui = false
+      v.vmx["memsize"] = 1024
+      v.vmx["numvcpus"] = 1
+    end
+
+    config.vm.provider :vmware_workstation do |v, override|
+      v.gui = false
+      v.vmx["memsize"] = 1024
+      v.vmx["numvcpus"] = 1
+    end
+  end
+
+end

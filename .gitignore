@@ -4,9 +4,13 @@ packer_cache
 # Build artifacts
 builds/*.box
 builds/*.ova
+builds/*.ova.gz
 
 # Temporary workspaces
 builds/output-*
 
 # Vagrant working files
-.vagrant
+**/.vagrant
+
+# Skip Vagrantfile(s) in test directories
+tests/*/Vagrantfile

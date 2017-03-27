@@ -18,9 +18,7 @@
     {
       "name": "virtualbox-centos6",
       "type": "virtualbox-iso",
-      "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks-el-6x.cfg<enter><wait>"
-      ],
+      "boot_command": [ "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks-el-6x.cfg<enter><wait>" ],
       "boot_wait": "10s",
       "disk_size": 81920,
       "guest_os_type": "RedHat_64",
@@ -40,28 +38,16 @@
       "shutdown_command": "echo '{{ user `ssh-password` }}' | /usr/bin/sudo -S /sbin/halt -h -p",
       "guest_additions_path": "VBoxGuestAdditions_{{ .Version }}.iso",
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "basebox-centos-{{ user `el-6x-version` }}-x86_64",
+      "vm_name": "basebox-centos6-{{ user `el-6x-version` }}-x86_64",
       "vboxmanage": [
-        [
-          "modifyvm",
-          "{{ .Name }}",
-          "--memory",
-          "512"
-        ],
-        [
-          "modifyvm",
-          "{{ .Name }}",
-          "--cpus",
-          "1"
-        ]
+        [ "modifyvm", "{{ .Name }}", "--memory", "512" ],
+        [ "modifyvm", "{{ .Name }}", "--cpus", "1" ]
       ]
     },
     {
       "name": "vmware-centos6",
       "type": "vmware-iso",
-      "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks-el-6x.cfg<enter><wait>"
-      ],
+      "boot_command": [ "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks-el-6x.cfg<enter><wait>" ],
       "boot_wait": "10s",
       "disk_size": 81920,
       "guest_os_type": "centos-64",
@@ -80,19 +66,15 @@
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "echo '{{ user `ssh-password` }}' | /usr/bin/sudo -S /sbin/halt -h -p",
       "tools_upload_flavor": "linux",
-      "vm_name": "basebox-centos-{{ user `el-6x-version` }}-x86_64",
+      "vm_name": "basebox-centos6-{{ user `el-6x-version` }}-x86_64",
       "vmx_data": {
-        "cpuid.coresPerSocket": "1",
-        "memsize": "512",
-        "numvcpus": "1"
+        "cpuid.coresPerSocket": "1", "memsize": "512", "numvcpus": "1"
       }
     },
     {
       "name": "virtualbox-rhel6",
       "type": "virtualbox-iso",
-      "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks-el-6x.cfg<enter><wait>"
-      ],
+      "boot_command": [ "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks-el-6x.cfg<enter><wait>" ],
       "boot_wait": "10s",
       "disk_size": 81920,
       "guest_os_type": "RedHat_64",
@@ -112,28 +94,16 @@
       "shutdown_command": "echo '{{ user `ssh-password` }}' | /usr/bin/sudo -S /sbin/halt -h -p",
       "guest_additions_path": "VBoxGuestAdditions_{{ .Version }}.iso",
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "basebox-rhel-{{ user `el-6x-version` }}-x86_64",
+      "vm_name": "basebox-rhel6-{{ user `el-6x-version` }}-x86_64",
       "vboxmanage": [
-        [
-          "modifyvm",
-          "{{ .Name }}",
-          "--memory",
-          "512"
-        ],
-        [
-          "modifyvm",
-          "{{ .Name }}",
-          "--cpus",
-          "1"
-        ]
+        [ "modifyvm", "{{ .Name }}", "--memory", "512" ],
+        [ "modifyvm", "{{ .Name }}", "--cpus", "1" ]
       ]
     },
     {
       "name": "vmware-rhel6",
       "type": "vmware-iso",
-      "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks-el-6x.cfg<enter><wait>"
-      ],
+      "boot_command": [ "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks-el-6x.cfg<enter><wait>" ],
       "boot_wait": "10s",
       "disk_size": 81920,
       "guest_os_type": "centos-64",
@@ -152,11 +122,9 @@
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "echo '{{ user `ssh-password` }}' | /usr/bin/sudo -S /sbin/halt -h -p",
       "tools_upload_flavor": "linux",
-      "vm_name": "basebox-rhel-{{ user `el-6x-version` }}-x86_64",
+      "vm_name": "basebox-rhel6-{{ user `el-6x-version` }}-x86_64",
       "vmx_data": {
-        "cpuid.coresPerSocket": "1",
-        "memsize": "512",
-        "numvcpus": "1"
+        "cpuid.coresPerSocket": "1", "memsize": "512", "numvcpus": "1"
       }
     },
     {
@@ -223,25 +191,25 @@
     },
     {
       "type": "shell",
-      "except": [ "docker-centos6" ],
-      "execute_command": "echo '{{ user `ssh_password` }}' | {{ .Vars }} /usr/bin/sudo -S -E bash '{{ .Path }}'",
-      "script": "scripts/zero-out-disk.sh"
-    },
-    {
-      "type": "shell",
       "only": [
         "virtualbox-rhel6",
         "vmware-rhel6"
       ],
       "execute_command": "echo '{{ user `ssh-password` }}' | {{ .Vars }} /usr/bin/sudo -S -E bash '{{ .Path }}'",
-      "inline": [ "rm -f /etc/sysconfig/rhn/systemid" ]
+      "inline": [ "rm -f /etc/sysconfig/rhn/systemid", "subscription-manager unregister" ]
+    },
+    {
+      "type": "shell",
+      "except": [ "docker-centos6" ],
+      "execute_command": "echo '{{ user `ssh_password` }}' | {{ .Vars }} /usr/bin/sudo -S -E bash '{{ .Path }}'",
+      "script": "scripts/zero-out-disk.sh"
     }
   ],
   "post-processors": [
     [{
       "type": "vagrant",
       "output": "builds/basebox-{{ .BuildName }}.box",
-      "vagrantfile_template": "Vagrantfile",
+      "vagrantfile_template": "templates/{{ build_name }}/Vagrantfile",
       "only": [
         "virtualbox-centos6",
         "vmware-centos6",
@@ -307,7 +275,7 @@
       "only": [ "virtualbox-centos6", "virtualbox-rhel6" ],
       "inline": [
         "cd builds/output-${PACKER_BUILD_NAME}",
-        "tar cfv ../basebox-${PACKER_BUILD_NAME}.ova *.ovf *.vmdk"
+        "tar czfv ../basebox-${PACKER_BUILD_NAME}.ova.gz *.ovf *.vmdk"
       ]
     },
     {
@@ -315,28 +283,13 @@
       "only": [ "vmware-centos6", "vmware-rhel6" ],
       "inline": [
         "cd builds/output-${PACKER_BUILD_NAME}",
-        "ovftool *.vmx ../basebox-${PACKER_BUILD_NAME}.ova"
+        "ovftool --compress=9 *.vmx ../basebox-${PACKER_BUILD_NAME}.ova.gz"
       ]
     },
     {
       "type": "artifice",
-      "only": [ "virtualbox-centos6" ],
-      "files": [ "builds/basebox-virtualbox-centos6.ova" ]
-    },
-    {
-      "type": "artifice",
-      "only": [ "virtualbox-rhel6" ],
-      "files": [ "builds/basebox-virtualbox-rhel6.ova" ]
-    },
-    {
-      "type": "artifice",
-      "only": [ "vmware-centos6" ],
-      "files": [ "builds/basebox-vmware-centos6.ova" ]
-    },
-    {
-      "type": "artifice",
-      "only": [ "vmware-centos6" ],
-      "files": [ "builds/basebox-vmware-rhel6.ova" ]
+      "only": [ "virtualbox-centos6", "virtualbox-rhel6", "vmware-centos6", "vmware-rhel6" ],
+      "files": [ "builds/basebox-{{ build_name }}.ova.gz" ]
     },
     {
       "type": "atlas",
