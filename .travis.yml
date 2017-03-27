@@ -24,7 +24,7 @@ before_script:
   - IDEMPOTENCE=$(mktemp)
 
 script:
-  - scripts/packer.sh docker-centos6 ${DOCKER_USERNAME}
+  - scripts/packer docker-centos6 ${DOCKER_USERNAME}
   - 'docker run --detach ${DOCKER_USERNAME}/basebox-centos6:${BASEBOX_VERSION} "${INIT}" > "${CONTAINER_ID}"'
   - tests/validate-results.sh $DISTRO $CONTAINER_ID
 
