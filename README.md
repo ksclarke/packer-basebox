@@ -82,7 +82,7 @@ To build just the CentOS 6 Docker basebox, run:
 
 ### Testing VirtualBox and VMWare build artifacts
 
-####A little wrapper script can be used to test new artifacts.
+#### A little wrapper script can be used to test new artifacts.
 
 To run just the CentOS 6 VirtualBox basebox:
 
@@ -100,7 +100,7 @@ To run just the RHEL 6 VMWare basebox:
 
     tests/vagrant vmware-rhel6 up
 
-####It's also possible to SSH in to the test instance to poke around.
+#### It's also possible to SSH in to the test instance to poke around.
 
 To SSH into the test CentOS 6 VirtualBox basebox:
 
@@ -118,7 +118,7 @@ To SSH into the test RHEL 6 VMWare basebox:
 
     tests/vagrant vmware-rhel6 ssh
     
-####Destroy the test instance to clean up its system resources.
+#### Destroy the test instance to clean up its system resources.
 
 To destroy the test CentOS 6 VirtualBox basebox:
 
