@@ -5,7 +5,7 @@ require 'yaml'
 if File.exists?("../../basebox.json")
   BOX_CONF = YAML.load("vagrant_box: file://../../builds/basebox-virtualbox-rhel6.box")
 else
-  BOX_CONF.merge!(YAML.load("vagrant_box: ksclarke/basebox-rhel6"))
+  BOX_CONF = YAML.load("vagrant_box: ksclarke/basebox-rhel6")
 end
 
 Vagrant.configure("2") do |config|
