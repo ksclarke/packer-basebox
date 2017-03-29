@@ -1,0 +1,25 @@
+#! /bin/bash
+
+if [ ! -d "tests/${1}" ]; then
+  echo "The supplied build \"${1}\" does not exist"
+  exit 1
+fi
+
+BOX_NAME="basebox-${1#*-}"
+
+# Do a clean box refresh each time we run
+if [ "$2" == "up" ]; then
+  vagrant box add --force "${BOX_NAME}-test" "builds/basebox-${1}.box"
+  cd "tests/${1}"
+  rm -f Vagrantfile
+  vagrant init "${BOX_NAME}-test"
+  vagrant up
+elif [ "$2" == "destroy" ]; then
+  cd "tests/${1}"
+  vagrant destroy -f
+elif [ "$2" == "ssh" ]; then
+  cd "tests/${1}"
+  vagrant ssh
+else
+  echo "Requested operation \"$2\" was not expected by this script"
+fi

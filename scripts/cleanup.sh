@@ -5,7 +5,7 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 printf "${GREEN}Updating installed packages${NC}\n"
-yum -y update
+yum -y --security update
 
 printf "${GREEN}Clean system${NC}\n"
 yum -y clean all

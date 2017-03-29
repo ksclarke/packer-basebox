@@ -40,33 +40,33 @@ You'll also need to download the [RHEL 6.8 DVD ISO](https://access.redhat.com/do
 
 To build just the CentOS 6 VirtualBox basebox, run:
 
-    scripts/packer.sh virtualbox-centos6
+    scripts/packer virtualbox-centos6
 
 To build just the CentOS 6 VMWare basebox, run:
 
-    scripts/packer.sh vmware-centos6
+    scripts/packer vmware-centos6
 
 To build just the RHEL 6 VirtualBox basebox, run:
 
-    scripts/packer.sh virtualbox-rhel6
+    scripts/packer virtualbox-rhel6
 
 To build just the RHEL 6 VMWare basebox, run:
 
-    scripts/packer.sh vmware-rhel6
+    scripts/packer vmware-rhel6
 
 To build just the CentOS 6 Docker basebox and store it in your local Docker repo, run:
 
-    scripts/packer.sh docker-centos6 [YOUR_DOCKER_USERNAME]
+    scripts/packer docker-centos6 [YOUR_DOCKER_USERNAME]
 
 ### Building and storing artifacts remotely in Atlas and/or DockerHub
 
 To build just the CentOS 6 VirtualBox basebox, run:
 
-    packer build -only=virtualbox-centos6 basebox.json
+    packer build -only="virtualbox-centos6" basebox.json
 
 To build just the CentOS 6 VMWare basebox, run:
 
-    packer build -only=vmware-centos6 basebox.json
+    packer build -only="vmware-centos6" basebox.json
 
 To build just the RHEL 6 VirtualBox basebox, run:
 
@@ -79,6 +79,62 @@ To build just the RHEL 6 VMWare basebox, run:
 To build just the CentOS 6 Docker basebox, run:
 
     DOCKER_USER="YOUR_DOCKER_USERNAME" packer build -only="docker-centos6" basebox.json
+
+### Testing VirtualBox and VMWare build artifacts
+
+#### A little wrapper script can be used to test new artifacts.
+
+To run just the CentOS 6 VirtualBox basebox:
+
+    tests/vagrant virtualbox-centos6 up
+
+To run just the CentOS 6 VMWare basebox:
+
+    tests/vagrant vmware-centos6 up
+
+To run just the RHEL 6 VirtualBox basebox:
+
+    tests/vagrant virtualbox-rhel6 up
+
+To run just the RHEL 6 VMWare basebox:
+
+    tests/vagrant vmware-rhel6 up
+
+#### It's also possible to SSH in to the test instance to poke around.
+
+To SSH into the test CentOS 6 VirtualBox basebox:
+
+    tests/vagrant virtualbox-centos6 ssh
+
+To SSH into the test CentOS 6 VMWare basebox:
+
+    tests/vagrant vmware-centos6 ssh
+
+To SSH into the test RHEL 6 VirtualBox basebox:
+
+    tests/vagrant virtualbox-rhel6 ssh
+
+To SSH into the test RHEL 6 VMWare basebox:
+
+    tests/vagrant vmware-rhel6 ssh
+    
+#### Destroy the test instance to clean up its system resources.
+
+To destroy the test CentOS 6 VirtualBox basebox:
+
+    tests/vagrant virtualbox-centos6 destroy
+
+To destroy the test CentOS 6 VMWare basebox:
+
+    tests/vagrant vmware-centos6 destroy
+
+To destroy the test RHEL 6 VirtualBox basebox:
+
+    tests/vagrant virtualbox-rhel6 destroy
+
+To destroy the test RHEL 6 VMWare basebox:
+
+    tests/vagrant vmware-rhel6 destroy
 
 ## License
 

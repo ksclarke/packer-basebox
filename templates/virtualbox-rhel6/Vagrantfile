@@ -1,0 +1,29 @@
+# Vagrantfile file for basebox-virtualbox-rhel6.box
+require 'yaml'
+
+# If we're running locally use file based paths; else use Atlas
+if File.exists?("../../basebox.json")
+  BOX_CONF = YAML.load("vagrant_box: file://../../builds/basebox-virtualbox-rhel6.box")
+else
+  BOX_CONF = YAML.load("vagrant_box: ksclarke/basebox-rhel6")
+end
+
+Vagrant.configure("2") do |config|
+  config.ssh.insert_key = false
+
+  config.vm.define "virtualbox-rhel6" do |virtualbox|
+    virtualbox.vm.hostname = "basebox-rhel6"
+    virtualbox.vm.box = BOX_CONF["vagrant_box"]
+
+    virtualbox.vm.network :private_network, type: "dhcp"
+
+    config.vm.provider :virtualbox do |v|
+      v.gui = false
+      v.memory = 1024
+      v.cpus = 1
+      v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+      v.customize ["modifyvm", :id, "--ioapic", "on"]
+    end
+  end
+
+end
