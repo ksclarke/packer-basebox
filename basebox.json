@@ -347,7 +347,7 @@
         "vmware-centos6",
         "vmware-rhel6"
       ],
-      "inline": [ "rm -rf builds/output-{{ build_name }}" ]
+      "inline": [ "rm -rf builds/output-{{ build_name }} builds/*.vmdk.gz builds/*.mf builds/*.ovf" ]
     }],
     [{
       "type": "docker-tag",
@@ -357,3 +357,4 @@
     }]
   ]
 }
+v
