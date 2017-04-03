@@ -11,7 +11,7 @@
     "atlas-username": "{{ env `ATLAS_USERNAME` }}",
     "atlas-token": "{{ env `ATLAS_TOKEN` }}",
     "docker-user": "{{ env `DOCKER_USER` }}",
-    "basebox-version": "0.0.2",
+    "basebox-version": "0.0.2-{{timestamp}}",
     "basebox-description": "A generic base box for use with more complicated builds"
   },
   "builders": [
