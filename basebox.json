@@ -11,7 +11,7 @@
     "atlas-username": "{{ env `ATLAS_USERNAME` }}",
     "atlas-token": "{{ env `ATLAS_TOKEN` }}",
     "docker-user": "{{ env `DOCKER_USER` }}",
-    "basebox-version": "0.0.2-{{timestamp}}",
+    "basebox-version": "0.0.2",
     "basebox-description": "A generic base box for use with more complicated builds"
   },
   "builders": [
@@ -226,7 +226,7 @@
       "artifact_type": "vagrant.box",
       "metadata": {
         "created_at": "{{ timestamp }}",
-        "version": "{{ user `basebox-version` }}",
+        "version": "{{ user `basebox-version` }}-{{timestamp}}",
         "description": "{{ user `basebox-description` }}",
         "provider": "virtualbox"
       }
@@ -239,7 +239,7 @@
       "artifact_type": "vagrant.box",
       "metadata": {
         "created_at": "{{ timestamp }}",
-        "version": "{{ user `basebox-version` }}",
+        "version": "{{ user `basebox-version` }}-{{timestamp}}",
         "description": "{{ user `basebox-description` }}",
         "provider": "vmware"
       }
@@ -252,7 +252,7 @@
       "artifact_type": "vagrant.box",
       "metadata": {
         "created_at": "{{ timestamp }}",
-        "version": "{{ user `basebox-version` }}",
+        "version": "{{ user `basebox-version` }}-{{timestamp}}",
         "description": "{{ user `basebox-description` }}",
         "provider": "virtualbox"
       }
@@ -265,7 +265,7 @@
       "artifact_type": "vagrant.box",
       "metadata": {
         "created_at": "{{ timestamp }}",
-        "version": "{{ user `basebox-version` }}",
+        "version": "{{ user `basebox-version` }}-{{timestamp}}",
         "description": "{{ user `basebox-description` }}",
         "provider": "vmware"
       }
@@ -299,7 +299,7 @@
       "artifact_type": "virtualbox.image",
       "metadata": {
         "created_at": "{{ timestamp }}",
-        "version": "{{ user `basebox-version` }}",
+        "version": "{{ user `basebox-version` }}-{{timestamp}}",
         "description": "{{ user `basebox-description` }}"
       }
     },
@@ -311,7 +311,7 @@
       "artifact_type": "vmware.image",
       "metadata": {
         "created_at": "{{ timestamp }}",
-        "version": "{{ user `basebox-version` }}",
+        "version": "{{ user `basebox-version` }}-{{timestamp}}",
         "description": "{{ user `basebox-description` }}"
       }
     },
@@ -323,7 +323,7 @@
       "artifact_type": "virtualbox.image",
       "metadata": {
         "created_at": "{{ timestamp }}",
-        "version": "{{ user `basebox-version` }}",
+        "version": "{{ user `basebox-version` }}-{{timestamp}}",
         "description": "{{ user `basebox-description` }}"
       }
     },
@@ -335,7 +335,7 @@
       "artifact_type": "vmware.image",
       "metadata": {
         "created_at": "{{ timestamp }}",
-        "version": "{{ user `basebox-version` }}",
+        "version": "{{ user `basebox-version` }}-{{timestamp}}",
         "description": "{{ user `basebox-description` }}"
       }
     },
