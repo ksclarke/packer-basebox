@@ -241,7 +241,7 @@
         "created_at": "{{ timestamp }}",
         "version": "{{ user `basebox-version` }}-{{timestamp}}",
         "description": "{{ user `basebox-description` }}",
-        "provider": "vmware"
+        "provider": "vmware_desktop"
       }
     },
     {
@@ -267,7 +267,7 @@
         "created_at": "{{ timestamp }}",
         "version": "{{ user `basebox-version` }}-{{timestamp}}",
         "description": "{{ user `basebox-description` }}",
-        "provider": "vmware"
+        "provider": "vmware_desktop"
       }
     }],
     [{
