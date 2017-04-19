@@ -34,9 +34,13 @@ If the desired input source is RHEL-based, RedHat Network credentials will also 
 
 You'll also need to download the [RHEL 6.8 DVD ISO](https://access.redhat.com/downloads/content/69/ver=/rhel---6/6.8/x86_64/product-software) ahead of time if you want to use the RHEL source. So that the Packer configuration can find it, please download it and put it in an `/iso` directory on your file system.
 
+## Using the Basebox
+
+If you're just interested in using the basebox, you don't have to build it yourself. You can use the [Vagrant boxes published on Atlas](docs/vagrant.md) or one of the [VirtualBox or VMWare OVA files](docs/ova.md). If you want to use a Docker image, that's [available from DockerHub](dockerhub.md).
+
 ## Building the Basebox
 
-### Running the build locally on your machine
+#### Running the build locally on your machine
 
 To build just the CentOS 6 VirtualBox basebox, run:
 
@@ -58,7 +62,7 @@ To build just the CentOS 6 Docker basebox and store it in your local Docker repo
 
     scripts/packer docker-centos6 [YOUR_DOCKER_USERNAME]
 
-### Building and storing artifacts remotely in Atlas and/or DockerHub
+#### Building and storing artifacts remotely in Atlas and/or DockerHub
 
 To build just the CentOS 6 VirtualBox basebox, run:
 
@@ -80,9 +84,9 @@ To build just the CentOS 6 Docker basebox, run:
 
     DOCKER_USER="YOUR_DOCKER_USERNAME" packer build -only="docker-centos6" basebox.json
 
-### Testing VirtualBox and VMWare build artifacts
+#### Testing VirtualBox and VMWare build artifacts
 
-#### A little wrapper script can be used to test new artifacts.
+**A little wrapper script can be used to test new artifacts.**
 
 To run just the CentOS 6 VirtualBox basebox:
 
@@ -100,7 +104,7 @@ To run just the RHEL 6 VMWare basebox:
 
     tests/vagrant vmware-rhel6 up
 
-#### It's also possible to SSH in to the test instance to poke around.
+**It's also possible to SSH in to the test instance to poke around.**
 
 To SSH into the test CentOS 6 VirtualBox basebox:
 
@@ -118,7 +122,7 @@ To SSH into the test RHEL 6 VMWare basebox:
 
     tests/vagrant vmware-rhel6 ssh
     
-#### Destroy the test instance to clean up its system resources.
+**Destroy the test instance to clean up its system resources.**
 
 To destroy the test CentOS 6 VirtualBox basebox:
 
