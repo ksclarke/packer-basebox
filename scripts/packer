@@ -11,4 +11,4 @@ else
 fi
 
 # Remove the parts of the Packer configuration that publish artifacts
-jq '.["post-processors"][0,1] |= map(select(.type != "atlas" and .type != "artifice"))' *.json | DOCKER_USER="$2" packer build $ONLY -
+jq '.["post-processors"][0,1] |= map(select(.type != "atlas" and .type != "artifice"))' *.json | RHEL_6_URL="$RHEL_6_URL" DOCKER_USER="$2" packer build $ONLY -
