@@ -29,7 +29,7 @@
       "iso_urls": [
         "iso/CentOS-{{ user `el-6x-version` }}-x86_64-minimal.iso",
         "http://mirrors.liquidweb.com/CentOS/{{ user `el-6x-version` }}/isos/x86_64/CentOS-{{ user `el-6x-version` }}-x86_64-minimal.iso",
-        "http://vault.centos.org/{{ user `el-6x-version` }}/isos/x86_64/CentOS-{{ user `el-6x-version` }}-x86_64-minimal.iso"
+        "http://archive.kernel.org/centos-vault/{{ user `el-6x-version` }}/isos/x86_64/CentOS-{{ user `el-6x-version` }}-x86_64-minimal.iso"
       ],
       "output_directory": "builds/output-{{ build_name }}",
       "iso_checksum_type": "sha256",
@@ -71,7 +71,7 @@
       "iso_urls": [
         "iso/CentOS-{{ user `el-6x-version` }}-x86_64-minimal.iso",
         "http://mirrors.liquidweb.com/CentOS/{{ user `el-6x-version` }}/isos/x86_64/CentOS-{{ user `el-6x-version` }}-x86_64-minimal.iso",
-        "http://vault.centos.org/{{ user `el-6x-version` }}/isos/x86_64/CentOS-{{ user `el-6x-version` }}-x86_64-minimal.iso"
+        "http://archive.kernel.org/centos-vault/{{ user `el-6x-version` }}/isos/x86_64/CentOS-{{ user `el-6x-version` }}-x86_64-minimal.iso"
       ],
       "output_directory": "builds/output-{{ build_name }}",
       "iso_checksum_type": "sha256",
