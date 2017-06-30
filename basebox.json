@@ -10,6 +10,8 @@
     "rhn-password": "{{ env `RHN_PASSWORD` }}",
     "atlas-username": "{{ env `ATLAS_USERNAME` }}",
     "atlas-token": "{{ env `ATLAS_TOKEN` }}",
+    "vagrant-cloud-username": "{{ env `VAGRANT_CLOUD_USERNAME` }}",
+    "vagrant-cloud-token": "{{ env `VAGRANT_CLOUD_TOKEN` }}",
     "docker-user": "{{ env `DOCKER_USER` }}",
     "basebox-version": "0.0.2",
     "basebox-description": "A generic base box for use with more complicated builds"
@@ -263,64 +265,40 @@
         "keep_input_artifact": true
       },
       {
-        "type": "atlas",
+        "type": "vagrant-cloud",
         "only": [
           "virtualbox-centos6"
         ],
-        "token": "{{ user `atlas-token` }}",
-        "artifact": "{{ user `atlas-username` }}/basebox-centos6",
-        "artifact_type": "vagrant.box",
-        "metadata": {
-          "created_at": "{{ timestamp }}",
-          "version": "{{ user `basebox-version` }}-{{timestamp}}",
-          "description": "{{ user `basebox-description` }}",
-          "provider": "virtualbox"
-        }
+        "access_token": "{{ user `vagrant-cloud-token` }}",
+        "box_tag": "{{ user `vagrant-cloud-username` }}/basebox-centos6",
+        "version": "{{ user `basebox-version` }}-{{timestamp}}"
       },
       {
-        "type": "atlas",
+        "type": "vagrant-cloud",
         "only": [
           "vmware-centos6"
         ],
-        "token": "{{ user `atlas-token` }}",
-        "artifact": "{{ user `atlas-username` }}/basebox-centos6",
-        "artifact_type": "vagrant.box",
-        "metadata": {
-          "created_at": "{{ timestamp }}",
-          "version": "{{ user `basebox-version` }}-{{timestamp}}",
-          "description": "{{ user `basebox-description` }}",
-          "provider": "vmware_desktop"
-        }
+        "access_token": "{{ user `vagrant-cloud-token` }}",
+        "box_tag": "{{ user `vagrant-cloud-username` }}/basebox-centos6",
+        "version": "{{ user `basebox-version` }}-{{timestamp}}"
       },
       {
-        "type": "atlas",
+        "type": "vagrant-cloud",
         "only": [
           "virtualbox-rhel6"
         ],
-        "token": "{{ user `atlas-token` }}",
-        "artifact": "{{ user `atlas-username` }}/basebox-rhel6",
-        "artifact_type": "vagrant.box",
-        "metadata": {
-          "created_at": "{{ timestamp }}",
-          "version": "{{ user `basebox-version` }}-{{timestamp}}",
-          "description": "{{ user `basebox-description` }}",
-          "provider": "virtualbox"
-        }
+        "access_token": "{{ user `vagrant-cloud-token` }}",
+        "box_tag": "{{ user `vagrant-cloud-username` }}/basebox-rhel6",
+        "version": "{{ user `basebox-version` }}-{{timestamp}}"
       },
       {
-        "type": "atlas",
+        "type": "vagrant-cloud",
         "only": [
           "vmware-rhel6"
         ],
-        "token": "{{ user `atlas-token` }}",
-        "artifact": "{{ user `atlas-username` }}/basebox-rhel6",
-        "artifact_type": "vagrant.box",
-        "metadata": {
-          "created_at": "{{ timestamp }}",
-          "version": "{{ user `basebox-version` }}-{{timestamp}}",
-          "description": "{{ user `basebox-description` }}",
-          "provider": "vmware_desktop"
-        }
+        "access_token": "{{ user `vagrant-cloud-token` }}",
+        "box_tag": "{{ user `vagrant-cloud-username` }}/basebox-rhel6",
+        "version": "{{ user `basebox-version` }}-{{timestamp}}"
       }
     ],
     [
